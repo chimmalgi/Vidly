@@ -1,0 +1,45 @@
+﻿@model Vidly.ViewModels.MovieFormViewModel
+
+@{
+    ViewBag.Title = "New Movie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    
+@if (HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString() != "New")
+{
+    <h2>Edit Movie</h2>
+}
+else
+{
+    <h2>New Movie</h2>
+}
+
+
+@using (Html.BeginForm("Save", "Movies"))
+{
+    <div class="form-group">
+        @Html.LabelFor(i => i.Movie.Name)
+        @Html.TextBoxFor(i => i.Movie.Name, new {@class = "form-control"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(i => i.Movie.ReleaseDate)
+        @Html.TextBoxFor(i => i.Movie.ReleaseDate, "{0:d MMM yyyy}", new {@class = "form-control"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(i => i.Movie.GenreId)
+        @Html.DropDownListFor(i => i.Movie.GenreId, new SelectList(Model.Genres, "Id", "Name"), "Select Genre",  new {@class = "form-control"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(i => i.Movie.NumInStock)
+        @Html.TextBoxFor(i => i.Movie.NumInStock, new {@class = "form-control"})
+    </div>
+
+    if (HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString() != "New")
+    {
+        @Html.HiddenFor(i => i.Movie.Id)
+    }
+
+    <button type="submit" class="btn btn-primary">SAVE</button>
+}
