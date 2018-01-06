@@ -1,45 +1,39 @@
 ﻿@model Vidly.ViewModels.MovieFormViewModel
 
 @{
-    ViewBag.Title = "New Movie";
+    ViewBag.Title = @Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
     
-@if (HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString() != "New")
-{
-    <h2>Edit Movie</h2>
-}
-else
-{
-    <h2>New Movie</h2>
-}
+    <h2>@Model.Title</h2>
 
 
 @using (Html.BeginForm("Save", "Movies"))
 {
     <div class="form-group">
-        @Html.LabelFor(i => i.Movie.Name)
-        @Html.TextBoxFor(i => i.Movie.Name, new {@class = "form-control"})
+        @Html.LabelFor(i => i.Name)
+        @Html.TextBoxFor(i => i.Name, new {@class = "form-control"})
+        @Html.ValidationMessageFor(i => i.Name)
     </div>
     <div class="form-group">
-        @Html.LabelFor(i => i.Movie.ReleaseDate)
-        @Html.TextBoxFor(i => i.Movie.ReleaseDate, "{0:d MMM yyyy}", new {@class = "form-control"})
+        @Html.LabelFor(i => i.ReleaseDate)
+        @Html.TextBoxFor(i => i.ReleaseDate, "{0:d MMM yyyy}", new {@class = "form-control"})
+        @Html.ValidationMessageFor(i => i.ReleaseDate)
     </div>
     <div class="form-group">
-        @Html.LabelFor(i => i.Movie.GenreId)
-        @Html.DropDownListFor(i => i.Movie.GenreId, new SelectList(Model.Genres, "Id", "Name"), "Select Genre",  new {@class = "form-control"})
+        @Html.LabelFor(i => i.GenreId)
+        @Html.DropDownListFor(i => i.GenreId, new SelectList(Model.Genres, "Id", "Name"), "Select Genre",  new {@class = "form-control"})
+        @Html.ValidationMessageFor(i => i.GenreId)
     </div>
     <div class="form-group">
-        @Html.LabelFor(i => i.Movie.NumInStock)
-        @Html.TextBoxFor(i => i.Movie.NumInStock, new {@class = "form-control"})
+        @Html.LabelFor(i => i.NumInStock)
+        @Html.TextBoxFor(i => i.NumInStock, new {@class = "form-control"})
+        @Html.ValidationMessageFor(i => i.NumInStock)
     </div>
-
-    if (HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString() != "New")
-    {
-        @Html.HiddenFor(i => i.Movie.Id)
-    }
-
+    
+    @Html.HiddenFor(i => i.Id)
+    
     <button type="submit" class="btn btn-primary">SAVE</button>
 }
