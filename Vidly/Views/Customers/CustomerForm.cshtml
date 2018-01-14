@@ -8,31 +8,39 @@
 
 @using (Html.BeginForm("Save", "Customers"))
 {
+    @Html.ValidationSummary()
     <div class="form-group">
-        @Html.LabelFor(i => i.Customer.Name)
-        @Html.TextBoxFor(i => i.Customer.Name, new {@class = "form-control"})
-        @Html.ValidationMessageFor(i => i.Customer.Name)
+        @Html.LabelFor(i => i.Name)
+        @Html.TextBoxFor(i => i.Name, new {@class = "form-control"})
+        @Html.ValidationMessageFor(i => i.Name)
     </div>
     <div class="form-group">
+        @Html.LabelFor(i => i.MembershipTypeId)
+        @Html.DropDownListFor(i => i.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(i => i.MembershipTypeId)
+    </div>
+       <div class="form-group">
         <label for="BirthDate">Date of Birth</label>
-        @Html.TextBoxFor(i => i.Customer.BirthDate, "{0:d MMM yyyy}", new {@class = "form-control"})
-        @Html.ValidationMessageFor(i => i.Customer.BirthDate)
+        @Html.TextBoxFor(i => i.BirthDate, "{0:d MMM yyyy}", new {@class = "form-control"})
+        @Html.ValidationMessageFor(i => i.BirthDate)
     </div>
-    <div class="form-group">
-        @Html.LabelFor(i => i.Customer.MembershipTypeId)
-        @Html.DropDownListFor(i => i.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership Type", new {@class = "form-control"})
-        @Html.ValidationMessageFor(i => i.Customer.MembershipTypeId)
-    </div>
+
     <div class="form-check">
-        @Html.CheckBoxFor(i => i.Customer.IsSubscribedToNewsletter, new {@class = "form-check-input"})
+        @Html.CheckBoxFor(i => i.IsSubscribedToNewsletter, new {@class = "form-check-input"})
         @Html.Label("Subscribed to Newsletter", new {@class = "form-check-label"})
     </div>
 
     if (HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString() != "New")
     {
-        @Html.HiddenFor(i => i.Customer.Id)
+        @Html.HiddenFor(i => i.Id)
     }
+    @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-primary">Save</button>
 
 
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
 }

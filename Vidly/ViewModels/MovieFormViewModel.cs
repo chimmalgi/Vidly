@@ -13,7 +13,7 @@ namespace Vidly.ViewModels
 
         public int? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Name is a required field.")]
         [StringLength(255)]
         public string Name { get; set; }
 
@@ -32,12 +32,14 @@ namespace Vidly.ViewModels
 
         public string Title
         {
-            get { return Id != 0 ? "New Movie" : "Edit Movie"; }
+            get { return Id != 0 ? "Edit Movie" : "New Movie" ; }
         }
 
         public MovieFormViewModel()
         {
             Id = 0;
+            ReleaseDate = default(DateTime);
+            NumInStock = 0;
         }
 
         public MovieFormViewModel(Movie movie)
