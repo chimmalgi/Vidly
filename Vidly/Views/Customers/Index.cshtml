@@ -8,37 +8,28 @@
 
 @Html.ActionLink("Add Customer", "New", "Customers", null, new {@class = "btn btn-primary"})
 
-@if (!Model.Any())
-{
-    <text>There are no customers</text>
-}
-else
-{
-    <table class="table table-bordered table-hover" id="customers">
-        <thead>
+<table class="table table-bordered table-hover" id="customers">
+    <thead>
         <tr>
             <th>Customer</th>
             <th>Membership Type</th>
             <th>Delete</th>
         </tr>
 
-        </thead>
-        <tbody>
-          
-        </tbody>
-    </table>
-
-}
+    </thead>
+    <tbody></tbody>
+</table>
 
 @section scripts
 {
     <script>
         $(document)
             .ready(function () {
-                $("#customers").DataTable({
+                var table = $("#customers").DataTable({
                     ajax: {
-                        url: "api/customers",
-                        datasrc: ""
+                        url: "/api/customers",
+                        dataSrc: ""
+                        
                     },
                     columns: [
                         {
@@ -49,7 +40,7 @@ else
                             }
                         },
                         {
-                            data: "name"
+                            data: "membershipType.name"
                         },
                         {
                             data: "id",
@@ -73,7 +64,7 @@ else
                                             url: "/api/customers/" + button.attr("data-customer-id"),
                                             method: "Delete",
                                             success: function () {
-                                                button.parents("tr").remove();
+                                                table.row(button.parents("tr")).remove().draw();
                                             }
                                         });
                                     }
